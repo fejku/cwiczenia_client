@@ -6,9 +6,11 @@ import WagaRow from "./WagaRow";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     listWrapper: {
-      width: 270,
+      width: 290,
       position: "relative",
       overflow: "auto",
+      backgroundColor: "#424242",
+      borderRadius: "3px",
     },
     list: {
       display: "grid",
@@ -17,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       gridAutoRows: "24px",
       gridRowGap: 16,
       position: "absolute",
+      margin: theme.spacing(2),
     },
     center: {
       textAlign: "center",
@@ -31,7 +34,7 @@ interface Props {
 
 const ListaWag: React.FC<Props> = ({ wagi, setWagi }) => {
   const classes = useStyles();
-  
+
   const posortowaneWagi = () => [...wagi].reverse();
 
   return (

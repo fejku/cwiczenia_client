@@ -1,5 +1,5 @@
-import React from 'react'
-import { createMuiTheme, createStyles, CssBaseline, makeStyles, Theme, ThemeProvider } from "@material-ui/core"
+import React from "react";
+import { createMuiTheme, createStyles, CssBaseline, makeStyles, Theme, ThemeProvider } from "@material-ui/core";
 import MainMenu from "./MainMenu/MainMenu";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Menu from "./Menu/Menu";
@@ -24,16 +24,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-    }
+    },
   }),
 );
 
 interface Props {
   apps: {
-    path: string; 
+    path: string;
     component: JSX.Element;
     icon: JSX.Element;
-  }[]
+  }[];
 }
 
 const Layout: React.FC<Props> = ({ apps }) => {
@@ -46,26 +46,24 @@ const Layout: React.FC<Props> = ({ apps }) => {
         <MainMenu />
         <div className={classes.container}>
           <Router>
-            <Menu apps={apps.map((app) => (
-              {
-                path: app.path, 
-                icon: app.icon
-              }
-              ))} />
+            <Menu
+              apps={apps.map((app) => ({
+                path: app.path,
+                icon: app.icon,
+              }))}
+            />
             <Switch>
-              <div className={classes.content}>
-                {apps.map((app) => (
-                  <Route path={app.path} exact={app.path === "/"}>
-                    {app.component}
-                  </Route>  
-                  ))}            
-              </div>
+              {apps.map((app) => (
+                <Route key={app.path} path={app.path} exact={app.path === "/"}>
+                  {app.component}
+                </Route>
+              ))}
             </Switch>
           </Router>
         </div>
       </div>
-    </ThemeProvider>    
-  )
-}
+    </ThemeProvider>
+  );
+};
 
-export default Layout
+export default Layout;

@@ -8,17 +8,18 @@ import WykresWagi from "./WykresWagi/WykresWagi";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      flexGrow: 1,
       height: "100%",
       padding: theme.spacing(2),
       display: "flex",
     },
-    container: {   
+    container: {
       height: "100%",
       flexGrow: 1,
       display: "flex",
     },
   }),
-);  
+);
 
 interface Props {}
 
@@ -37,7 +38,7 @@ const PomiaryWagi = (props: Props) => {
 
     setWagi(listaWag);
   };
-  
+
   return (
     <div className={classes.root}>
       <DodajWage wagi={wagi} setWagi={setWagi} />
