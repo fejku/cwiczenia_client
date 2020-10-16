@@ -185,9 +185,8 @@ const EditDish: React.FC<Props> = ({ setPotrawy }) => {
             </div>
             <Autocomplete
               multiple
-              filterSelectedOptions
               limitTags={2}
-              options={tagi}
+              options={EditDishHelper.dajNieWybraneTagi(tagi, wybraneTagi)}
               getOptionLabel={(tag) => tag.nazwa}
               value={wybraneTagi}
               onChange={onTagiChange}

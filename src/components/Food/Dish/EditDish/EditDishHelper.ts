@@ -36,4 +36,8 @@ export default class EditDishHelper {
     });
     return await response.json();
   };
+
+  static dajNieWybraneTagi = (tagi: Tag[], wybraneTagi: Tag[]) => [
+    ...tagi.filter((tag) => !wybraneTagi.find((wybranyTag) => tag._id === wybranyTag._id)),
+  ];
 }
