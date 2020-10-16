@@ -52,12 +52,12 @@ const Dish: React.FC<Props> = ({ potrawa }) => {
       <CardHeader
         title={potrawa.nazwa}
         action={
-          <IconButton aria-label="settings">
+          <IconButton>
             <MoreVertIcon />
           </IconButton>
         }
       />
-      <CardMedia className={classes.media} image={potrawa.zdjecie ? potrawa.zdjecie : ""} title="Paella dish" />
+      <CardMedia className={classes.media} image={potrawa.zdjecie ? potrawa.zdjecie : ""} />
       {potrawa.uwagi && (
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">

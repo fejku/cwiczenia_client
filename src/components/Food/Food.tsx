@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { TextField } from "@material-ui/core";
 import Dish from "./Dish/Dish";
-import { Autocomplete } from "@material-ui/lab";
-import Potrawa from "../../interfaces/Potrawa";
+import Filtry from "./Filtry/Filtry";
 import FoodHelper from "./FoodHelper";
+import Potrawa from "../../interfaces/Potrawa";
 import Tag from "../../interfaces/Tag";
 import { useStyles } from "./FoodStyle";
+import EditDish from "./Dish/EditDish/EditDish";
 
 interface Props {}
 
@@ -14,8 +14,8 @@ const Food = (props: Props) => {
 
   const [potrawy, setPotrawy] = useState<Potrawa[]>([]);
   const [przefiltrowanePotrawy, setPrzefiltrowanePotrawy] = useState<Potrawa[]>([]);
-  const [filtrTagi, setFiltrTagi] = useState<Tag[]>([]);
   const [filtrNazwa, setFiltrNazwa] = useState("");
+  const [filtrTagi, setFiltrTagi] = useState<Tag[]>([]);
 
   useEffect(() => {
     pobierzPotrawy();
@@ -23,21 +23,12 @@ const Food = (props: Props) => {
 
   useEffect(() => {
     ustawPrzefiltrowanePotrawy();
-  }, [potrawy, filtrTagi, filtrNazwa]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [potrawy, filtrNazwa, filtrTagi]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const pobierzPotrawy = async () => {
-    const response = await fetch("/potrawy");
+    const response = await fetch("/food/potrawy");
     const data = await response.json();
-
     setPotrawy(data);
-  };
-
-  const onFiltrTagiChange = (event: any, values: Tag[]) => {
-    setFiltrTagi(values);
-  };
-
-  const onFiltrNazweChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFiltrNazwa(event.target.value);
   };
 
   const ustawPrzefiltrowanePotrawy = () => {
@@ -46,30 +37,17 @@ const Food = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.search}>
-        <TextField
-          className={classes.wyszukajNazwa}
-          variant="outlined"
-          label="Nazwa potrawy"
-          placeholder="Sernik"
-          value={filtrNazwa}
-          onChange={onFiltrNazweChange}
-        />
-        <Autocomplete
-          multiple
-          options={FoodHelper.dajTagiDoWyszukiwania(potrawy)}
-          getOptionLabel={(potrawa) => potrawa.nazwa}
-          filterSelectedOptions
-          limitTags={3}
-          renderInput={(params) => <TextField {...params} variant="outlined" label="Tagi" placeholder="Obiad" />}
-          onChange={onFiltrTagiChange}
-        />
-      </div>
+      <Filtry
+        potrawy={potrawy}
+        filtrNazwaState={[filtrNazwa, setFiltrNazwa]}
+        filtrTagiState={[filtrTagi, setFiltrTagi]}
+      />
       <div className={classes.dishes}>
         {przefiltrowanePotrawy.map((potrawa) => (
           <Dish key={potrawa._id} potrawa={potrawa} />
         ))}
       </div>
+      <EditDish setPotrawy={setPotrawy} />
     </div>
   );
 };

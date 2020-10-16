@@ -14,16 +14,5 @@ export const useStyles = makeStyles((theme: Theme) =>
       justifyItems: "center",
       columnGap: theme.spacing(2),
     },
-    search: {
-      paddingBottom: theme.spacing(2),
-      display: "flex",
-      "& > div": {
-        flexGrow: 1,
-      },
-      "& > div:first-child": {
-        marginRight: theme.spacing(2),
-      },
-    },
-    wyszukajNazwa: {},
   }),
 );

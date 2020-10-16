@@ -6,15 +6,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Fab,
   makeStyles,
   TextField,
   Theme,
 } from "@material-ui/core";
 import Waga from "../../../interfaces/Waga";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import AddIcon from "@material-ui/icons/Add";
-import MyDatePicker from "../../Utils/MyDatePicker";
+import MyDatePicker from "../../Common/MyDatePicker";
+import MyFab from "../../Common/MyFab";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,10 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
-    fab: {
-      position: "absolute",
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
+    actions: {
+      "& > button": {
+        color: theme.palette.primary.light,
+      },
     },
   }),
 );
@@ -60,10 +59,6 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
       }
     }
     return "0.0";
-  };
-
-  const handleDodajWageClick = () => {
-    setDodawanieWagi((prev) => !prev);
   };
 
   const handleDataChange = (date: Date | null) => {
@@ -127,9 +122,7 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
 
   return (
     <div>
-      <Fab className={classes.fab} color="secondary" onClick={handleDodajWageClick}>
-        <AddIcon />
-      </Fab>
+      <MyFab setState={setDodawanieWagi} />
       <Dialog open={dodawanieWagi}>
         <DialogTitle id="form-dialog-title">Dodaj wagę</DialogTitle>
         <DialogContent dividers>
@@ -148,7 +141,7 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
             </div>
           </form>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className={classes.actions}>
           <Button onClick={handleAnulujClick} color="primary">
             Anuluj
           </Button>
