@@ -1,13 +1,10 @@
 import React from "react";
 import { createMuiTheme, createStyles, CssBaseline, makeStyles, Theme, ThemeProvider } from "@material-ui/core";
-import MainMenu from "./MainMenu/MainMenu";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Menu from "./Menu/Menu";
 
 const theme = createMuiTheme({
-  palette: {
-    type: "dark",
-  },
+  palette: {},
 });
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       display: "flex",
       flexDirection: "column",
+      backgroundColor: "#f5f5f7",
     },
     container: {
       height: "100%",
@@ -33,6 +31,7 @@ interface Props {
     path: string;
     component: JSX.Element;
     icon: JSX.Element;
+    activeOnlyWhenExact?: boolean;
   }[];
 }
 
@@ -43,13 +42,13 @@ const Layout: React.FC<Props> = ({ apps }) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className={classes.root}>
-        <MainMenu />
         <div className={classes.container}>
           <Router>
             <Menu
               apps={apps.map((app) => ({
                 path: app.path,
                 icon: app.icon,
+                activeOnlyWhenExact: app.activeOnlyWhenExact,
               }))}
             />
             <Switch>
