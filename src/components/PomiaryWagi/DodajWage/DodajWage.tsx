@@ -21,11 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
     },
-    actions: {
-      "& > button": {
-        color: theme.palette.primary.light,
-      },
-    },
   }),
 );
 
@@ -118,7 +113,7 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
             </div>
           </form>
         </DialogContent>
-        <DialogActions className={classes.actions}>
+        <DialogActions>
           <Button onClick={handleAnulujClick} color="primary">
             Anuluj
           </Button>

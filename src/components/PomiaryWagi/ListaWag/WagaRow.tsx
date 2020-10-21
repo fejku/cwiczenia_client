@@ -1,32 +1,13 @@
 import React from "react";
-import { createStyles, makeStyles, Theme, Typography } from "@material-ui/core";
+import { createStyles, IconButton, makeStyles, Theme, Typography } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import moment from "moment";
 import Waga from "../../../interfaces/Waga";
 import ArrowUpIcon from "../../Icons/ArrowUpIcon";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    cellAction: {
-      position: "relative",
-    },
-    cellActionIcons: {
-      position: "absolute",
-      right: 0,
-      top: 0,
-      "& > svg": {
-        width: "0.9rem",
-        height: "0.9rem",
-        padding: "2px",
-        cursor: "pointer",
-      },
-    },
-    center: {
-      textAlign: "center",
-    },
-    deleteIcon: {
-      cursor: "pointer",
-    },
     root: {
       display: "flex",
       backgroundColor: "#fff",
@@ -34,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "16px 20px",
       borderRadius: "8px",
       justifyContent: "space-between",
+      position: "relative",
     },
     dataRoznicaWrapper: { display: "flex", flexDirection: "column", justifyContent: "space-evenly" },
     data: { color: "#75777b", fontSize: "smaller", paddingBottom: 2 },
@@ -43,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
     waga: { display: "flex", alignItems: "flex-end" },
     wagaLabel: { fontSize: "1.75rem", paddingRight: theme.spacing(0.5) },
     wagaKg: { fontSize: "smaller" },
+    wagaAkcje: { 
+      position: "absolute", top: 2, right: 2 
+    },
   }),
 );
 
@@ -79,6 +64,11 @@ const WagaRow: React.FC<Props> = ({ waga, setWagi }) => {
           <Typography variant="h6" className={classes.wagaKg}>
             kg
           </Typography>
+        </div>
+        <div className={classes.wagaAkcje}>
+          <IconButton size="small"  >
+            <MoreHorizIcon  />
+          </IconButton>
         </div>
       </div>
     </>
