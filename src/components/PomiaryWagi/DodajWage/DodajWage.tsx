@@ -11,7 +11,6 @@ import {
   Theme,
 } from "@material-ui/core";
 import Waga from "../../../interfaces/Waga";
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import MyDatePicker from "../../Common/MyDatePicker";
 import MyFab from "../../Common/MyFab";
 
@@ -40,7 +39,6 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
 
   const [dodawanieWagi, setDodawanieWagi] = useState(false);
   const [data, setData] = useState(new Date());
-  const [poraPomiaru, setPoraPomiaru] = useState("rano");
   const [waga, setWaga] = useState("0.0");
 
   useEffect(() => {
@@ -51,12 +49,7 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
     const ostatniaWaga = [...wagi].reverse()[0];
 
     if (ostatniaWaga) {
-      if (ostatniaWaga.wagaWieczor) {
-        return ostatniaWaga.wagaWieczor.toFixed(1);
-      }
-      if (ostatniaWaga.wagaRano) {
-        return ostatniaWaga.wagaRano.toFixed(1);
-      }
+      return ostatniaWaga.waga.toFixed(1);
     }
     return "0.0";
   };
@@ -64,12 +57,6 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
   const handleDataChange = (date: Date | null) => {
     if (date) {
       setData(date);
-    }
-  };
-
-  const handlePoraPomiaruChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
-    if (newAlignment !== null) {
-      setPoraPomiaru(newAlignment);
     }
   };
 
@@ -93,15 +80,8 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
   const handleDodajClick = async () => {
     const dodawanaWaga: Waga = {
       data,
+      waga: Number(waga),
     };
-
-    if (poraPomiaru === "rano") {
-      dodawanaWaga.wagaRano = Number(waga);
-    }
-
-    if (poraPomiaru === "wieczor") {
-      dodawanaWaga.wagaWieczor = Number(waga);
-    }
 
     const response = await fetch("/waga", {
       method: "POST",
@@ -110,9 +90,12 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
       },
       body: JSON.stringify(dodawanaWaga),
     });
-    const listaWag: Waga[] = await response.json();
+    const dodanaWaga: Waga = await response.json();
 
-    setWagi(listaWag);
+    if (dodanaWaga) {
+      setWagi([...wagi, dodanaWaga]);
+    }
+
     setDodawanieWagi(false);
   };
 
@@ -129,12 +112,6 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
           <form className={classes.root}>
             <div>
               <MyDatePicker label="Data pomiaru" value={data} onChange={handleDataChange} />
-            </div>
-            <div>
-              <ToggleButtonGroup value={poraPomiaru} exclusive onChange={handlePoraPomiaruChange}>
-                <ToggleButton value="rano">Rano</ToggleButton>
-                <ToggleButton value="wieczor">Wieczór</ToggleButton>
-              </ToggleButtonGroup>
             </div>
             <div>
               <TextField label="Waga" value={waga} onChange={handleWagaChange} onBlur={handleWagaBlur} />

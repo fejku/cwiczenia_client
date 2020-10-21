@@ -1,28 +1,23 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
 import Waga from "../../../interfaces/Waga";
 import WagaRow from "./WagaRow";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    listWrapper: {
+    root: {
       width: 290,
-      position: "relative",
-      overflow: "auto",
-      backgroundColor: "#424242",
-      borderRadius: "3px",
+      display: "flex",
+      flexDirection: "column",
     },
-    list: {
-      display: "grid",
-      gridTemplateColumns: "10ch 1fr 1fr 24px",
-      gridTemplateRows: "max-content",
-      gridAutoRows: "24px",
-      gridRowGap: 16,
-      position: "absolute",
-      margin: theme.spacing(2),
+    listWrapper: {
+      height: "100%",
+      overflowY: "auto",
+      paddingRight: theme.spacing(1),
     },
-    center: {
-      textAlign: "center",
+    title: {
+      fontWeight: "bold",
+      marginBottom: theme.spacing(1),
     },
   }),
 );
@@ -38,12 +33,11 @@ const ListaWag: React.FC<Props> = ({ wagi, setWagi }) => {
   const posortowaneWagi = () => [...wagi].reverse();
 
   return (
-    <div className={classes.listWrapper}>
-      <div className={classes.list}>
-        <div>Data</div>
-        <div className={classes.center}>Waga rano</div>
-        <div className={classes.center}>Waga wieczorem</div>
-        <div></div>
+    <div className={classes.root}>
+      <div className={classes.title}>
+        <Typography variant="h5">Historia</Typography>
+      </div>
+      <div className={classes.listWrapper}>
         {posortowaneWagi().map((waga) => (
           <WagaRow key={waga._id} waga={waga} setWagi={setWagi} />
         ))}

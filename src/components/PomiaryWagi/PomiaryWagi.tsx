@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
       height: "100%",
-      padding: theme.spacing(2),
       display: "flex",
+      padding: theme.spacing(2),
     },
     container: {
       height: "100%",

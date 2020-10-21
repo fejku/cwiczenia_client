@@ -1,8 +1,7 @@
 interface Waga {
   _id?: string;
   data: Date;
-  wagaRano?: number;
-  wagaWieczor?: number;
+  waga: number;
 }
 
 export default Waga;

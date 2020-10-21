@@ -2,16 +2,28 @@ import React, { useEffect, useRef } from "react";
 import Chart from "chart.js";
 import Waga from "../../../interfaces/Waga";
 import moment from "moment";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flex: 1,
+    },
+    chart: {
+      width: "100%",
+    },
+  }),
+);
 
 Chart.defaults.global.defaultFontFamily = "'Roboto', sans-serif";
-// Chart.defaults.global.legend!.display = false;
-Chart.defaults.global.elements!.line!.tension = 0;
 
 interface Props {
   wagi: Waga[];
 }
 
 const WykresWagi2: React.FC<Props> = ({ wagi }) => {
+  const classes = useStyles();
+
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -22,27 +34,18 @@ const WykresWagi2: React.FC<Props> = ({ wagi }) => {
         new Chart(myChartRef, {
           type: "line",
           data: {
-            //Bring in data
             labels: wagi.map((waga) => moment(waga.data).format("YYYY-MM-DD")),
             datasets: [
               {
-                label: "Wagi rano",
-                data: wagi.map((waga) => (waga.wagaRano ? waga.wagaRano : null)),
+                label: "Wagi",
+                data: wagi.map((waga) => waga.waga),
                 fill: false,
                 borderColor: "#6610f2",
-              },
-              {
-                label: "Wagi wieczorem",
-                data: wagi.map((waga) => (waga.wagaWieczor ? waga.wagaWieczor : null)),
-                fill: false,
-                borderColor: "#E0E0E0",
               },
             ],
           },
           options: {
-            //Customize chart options
             spanGaps: true,
- 
             layout: {
               padding: {
                 top: 5,
@@ -60,6 +63,14 @@ const WykresWagi2: React.FC<Props> = ({ wagi }) => {
                 },
               ],
             },
+            legend: {
+              display: false,
+            },
+            elements: {
+              line: {
+                tension: 0,
+              },
+            },
           },
         });
       }
@@ -67,8 +78,8 @@ const WykresWagi2: React.FC<Props> = ({ wagi }) => {
   }, [wagi]);
 
   return (
-    <div style={{ flex: "1" }}>
-      <canvas ref={chartRef} />
+    <div className={classes.root}>
+      <canvas ref={chartRef} className={classes.chart} />
     </div>
   );
 };
