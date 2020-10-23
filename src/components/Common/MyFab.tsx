@@ -13,18 +13,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  onDodaj: () => void;
 }
 
-const MyFab: React.FC<Props> = ({ setState }) => {
+const MyFab: React.FC<Props> = ({ onDodaj }) => {
   const classes = useStyles();
 
-  const onDodajClick = () => {
-    setState(true);
-  };
-
   return (
-    <Fab className={classes.fab} color="secondary" onClick={onDodajClick}>
+    <Fab className={classes.fab} color="secondary" onClick={onDodaj}>
       <AddIcon />
     </Fab>
   );

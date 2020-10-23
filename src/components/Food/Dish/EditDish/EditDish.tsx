@@ -83,6 +83,10 @@ const EditDish: React.FC<Props> = ({ setPotrawy }) => {
     setTagi(data);
   };
 
+  const onDodajDish = () => {
+    setDodawanieWagi(true);
+  };
+
   const onNazwaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNazwa(event.target.value);
   };
@@ -155,7 +159,7 @@ const EditDish: React.FC<Props> = ({ setPotrawy }) => {
 
   return (
     <div>
-      <MyFab setState={setDodawanieWagi} />
+      <MyFab onDodaj={onDodajDish} />
       <Dialog fullWidth maxWidth={"sm"} open={dodawanieWagi}>
         <DialogTitle>Dodaj potrawę</DialogTitle>
         <DialogContent dividers>

@@ -73,19 +73,38 @@ const EdycjaWagi: React.FC<Props> = ({ wagi, setWagi }) => {
     }
   };
 
-  const handleDodajClick = async () => {
-    const dodawanaWaga: IWaga = {
-      data,
-      waga: Number(waga),
-    };
-
-    const response = await fetch("/waga", {
+  const dodajWage = async (dodawanaWaga: IWaga) => {
+    return await fetch("/waga", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dodawanaWaga),
     });
+  };
+
+  const edytujWage = async (edytowanaWaga: IWaga) => {
+    return await fetch(`/waga/${edytowanaWaga._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(edytowanaWaga),
+    });
+  };
+
+  const handleDodajClick = async () => {
+    const ustawionaWaga: IWaga = {
+      data,
+      waga: Number(waga),
+    };
+
+    let response;
+    if (czyEdycja) {
+      response = await edytujWage(ustawionaWaga);
+    } else {
+      response = await dodajWage(ustawionaWaga);
+    }
     const dodanaWaga: IWaga = await response.json();
 
     if (dodanaWaga) {
@@ -99,11 +118,15 @@ const EdycjaWagi: React.FC<Props> = ({ wagi, setWagi }) => {
     setCzyWyswietlicEdycjeWagi(false);
   };
 
+  const onDodajWage = () => {
+    setCzyWyswietlicEdycjeWagi(true);
+  };
+
   return (
     <div>
-      <MyFab setState={setCzyWyswietlicEdycjeWagi} />
+      <MyFab onDodaj={onDodajWage} />
       <Dialog open={czyWyswietlicEdycjeWagi}>
-        <DialogTitle id="form-dialog-title">Dodaj wagę</DialogTitle>
+        <DialogTitle id="form-dialog-title">{czyEdycja ? "Edycja" : "Dodawanie"} wagi</DialogTitle>
         <DialogContent dividers>
           <form className={classes.root}>
             <div>

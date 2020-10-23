@@ -3,6 +3,7 @@ import {
   createStyles,
   IconButton,
   ListItemIcon,
+  ListItemText,
   makeStyles,
   Menu,
   MenuItem,
@@ -13,7 +14,14 @@ import moment from "moment";
 import IWaga from "../../../../interfaces/IWaga";
 import ArrowUpIcon from "../../../Icons/ArrowUpIcon";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import { useEdycjaWagiData, useEdycjaWagiWaga, useEdycjaWagiWyswietl } from "../../EdycjaWagiContext";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteForeverOutlinedIcon from "@material-ui/icons/DeleteForeverOutlined";
+import {
+  useEdycjaWagiData,
+  useEdycjaWagiWaga,
+  useEdycjaWagiWyswietl,
+  useEdycjaWagiEdytowanaWaga,
+} from "../../EdycjaWagiContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,6 +61,7 @@ const WagaRow: React.FC<Props> = ({ waga, setWagi }) => {
   const [, edycjaWagiSetCzyWyswietlicEdycjaWagi] = useEdycjaWagiWyswietl();
   const [, edycjaWagiSetData] = useEdycjaWagiData();
   const [, edycjaWagiSetWaga] = useEdycjaWagiWaga();
+  const [, edycjaWagiSetEdytowanaWaga] = useEdycjaWagiEdytowanaWaga();
 
   const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
 
@@ -68,6 +77,7 @@ const WagaRow: React.FC<Props> = ({ waga, setWagi }) => {
     edycjaWagiSetData(waga.data);
     edycjaWagiSetWaga(waga.waga.toFixed(1));
     edycjaWagiSetCzyWyswietlicEdycjaWagi(true);
+    edycjaWagiSetEdytowanaWaga(waga);
     setMenuAnchor(null);
   };
 
@@ -105,9 +115,17 @@ const WagaRow: React.FC<Props> = ({ waga, setWagi }) => {
           </IconButton>
           <Menu anchorEl={menuAnchor} keepMounted open={Boolean(menuAnchor)} onClose={onMenuClose}>
             <MenuItem onClick={onMenuEditClick}>
-              <ListItemIcon></ListItemIcon> Edytuj
+              <ListItemIcon>
+                <EditOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Edytuj" />
             </MenuItem>
-            <MenuItem onClick={onMenuUsunClick}>Usuń</MenuItem>
+            <MenuItem onClick={onMenuUsunClick}>
+              <ListItemIcon>
+                <DeleteForeverOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Usuń" />
+            </MenuItem>
           </Menu>
         </div>
       </div>
