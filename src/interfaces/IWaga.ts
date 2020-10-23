@@ -1,7 +1,7 @@
-interface Waga {
+interface IWaga {
   _id?: string;
   data: Date;
   waga: number;
 }
 
-export default Waga;
+export default IWaga;

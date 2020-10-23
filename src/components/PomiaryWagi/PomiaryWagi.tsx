@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
-import Waga from "../../interfaces/Waga";
-import DodajWage from "./DodajWage/DodajWage";
+import IWaga from "../../interfaces/IWaga";
+import EdycjaWagi from "./EdycjaWagi/EdycjaWagi";
 import ListaWag from "./ListaWag/ListaWag";
 import WykresWagi from "./WykresWagi/WykresWagi";
-import { DodajWageProvider } from "./Contexts/DodajWageContext";
+import { EdycjaWagiProvider } from "./EdycjaWagiContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,7 +27,7 @@ interface Props {}
 const PomiaryWagi = (props: Props) => {
   const classes = useStyles();
 
-  const [wagi, setWagi] = useState<Waga[]>([]);
+  const [wagi, setWagi] = useState<IWaga[]>([]);
 
   useEffect(() => {
     pobierzListeWag();
@@ -42,13 +42,13 @@ const PomiaryWagi = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <DodajWageProvider>
-        <DodajWage wagi={wagi} setWagi={setWagi} />
+      <EdycjaWagiProvider>
+        <EdycjaWagi wagi={wagi} setWagi={setWagi} />
         <div className={classes.container}>
           <ListaWag wagi={wagi} setWagi={setWagi} />
           <WykresWagi wagi={wagi} />
         </div>
-      </DodajWageProvider>
+      </EdycjaWagiProvider>
     </div>
   );
 };

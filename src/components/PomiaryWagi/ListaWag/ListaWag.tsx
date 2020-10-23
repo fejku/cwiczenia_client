@@ -1,7 +1,7 @@
 import React from "react";
-import { createStyles, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
-import Waga from "../../../interfaces/Waga";
-import WagaRow from "./WagaRow";
+import { createStyles, makeStyles, Theme, Typography } from "@material-ui/core";
+import IWaga from "../../../interfaces/IWaga";
+import WagaRow from "./WagaRow/WagaRow";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  wagi: Waga[];
-  setWagi: React.Dispatch<React.SetStateAction<Waga[]>>;
+  wagi: IWaga[];
+  setWagi: React.Dispatch<React.SetStateAction<IWaga[]>>;
 }
 
 const ListaWag: React.FC<Props> = ({ wagi, setWagi }) => {

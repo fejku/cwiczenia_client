@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js";
-import Waga from "../../../interfaces/Waga";
+import IWaga from "../../../interfaces/IWaga";
 import moment from "moment";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 Chart.defaults.global.defaultFontFamily = "'Roboto', sans-serif";
 
 interface Props {
-  wagi: Waga[];
+  wagi: IWaga[];
 }
 
 const WykresWagi2: React.FC<Props> = ({ wagi }) => {

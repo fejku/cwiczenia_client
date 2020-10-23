@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   createStyles,
@@ -10,10 +10,10 @@ import {
   TextField,
   Theme,
 } from "@material-ui/core";
-import Waga from "../../../interfaces/Waga";
+import IWaga from "../../../interfaces/IWaga";
 import MyDatePicker from "../../Common/MyDatePicker";
 import MyFab from "../../Common/MyFab";
-import { DodajWageContext } from "../Contexts/DodajWageContext";
+import { useEdycjaWagiWyswietl, useEdycjaWagiData, useEdycjaWagiWaga } from "../EdycjaWagiContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,17 +26,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  wagi: Waga[];
-  setWagi: React.Dispatch<React.SetStateAction<Waga[]>>;
+  wagi: IWaga[];
+  setWagi: React.Dispatch<React.SetStateAction<IWaga[]>>;
 }
 
-const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
+const EdycjaWagi: React.FC<Props> = ({ wagi, setWagi }) => {
   const classes = useStyles();
 
-  const { czyWyswietlicDodawanieWagiGetSet: [czyWyswietlicDodawanieWagi, setCzyWyswietlicDodawanieWagi],
-    dataGetSet: [data, setData],
-    wagaGetSet: [waga, setWaga], 
-  } = useContext(DodajWageContext);
+  const [czyWyswietlicEdycjeWagi, setCzyWyswietlicEdycjeWagi] = useEdycjaWagiWyswietl();
+  const [data, setData] = useEdycjaWagiData();
+  const [waga, setWaga] = useEdycjaWagiWaga();
 
   useEffect(() => {
     setWaga(dajOstatniaWage());
@@ -75,7 +74,7 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
   };
 
   const handleDodajClick = async () => {
-    const dodawanaWaga: Waga = {
+    const dodawanaWaga: IWaga = {
       data,
       waga: Number(waga),
     };
@@ -87,23 +86,23 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
       },
       body: JSON.stringify(dodawanaWaga),
     });
-    const dodanaWaga: Waga = await response.json();
+    const dodanaWaga: IWaga = await response.json();
 
     if (dodanaWaga) {
       setWagi([...wagi, dodanaWaga]);
     }
 
-    setCzyWyswietlicDodawanieWagi(false);
+    setCzyWyswietlicEdycjeWagi(false);
   };
 
   const handleAnulujClick = () => {
-    setCzyWyswietlicDodawanieWagi(false);
+    setCzyWyswietlicEdycjeWagi(false);
   };
 
   return (
     <div>
-      <MyFab setState={setCzyWyswietlicDodawanieWagi} />
-      <Dialog open={czyWyswietlicDodawanieWagi}>
+      <MyFab setState={setCzyWyswietlicEdycjeWagi} />
+      <Dialog open={czyWyswietlicEdycjeWagi}>
         <DialogTitle id="form-dialog-title">Dodaj wagę</DialogTitle>
         <DialogContent dividers>
           <form className={classes.root}>
@@ -128,4 +127,4 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
   );
 };
 
-export default DodajWage;
+export default EdycjaWagi;
