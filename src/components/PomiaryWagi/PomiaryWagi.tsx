@@ -4,6 +4,7 @@ import Waga from "../../interfaces/Waga";
 import DodajWage from "./DodajWage/DodajWage";
 import ListaWag from "./ListaWag/ListaWag";
 import WykresWagi from "./WykresWagi/WykresWagi";
+import { DodajWageProvider } from "./Contexts/DodajWageContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,11 +42,13 @@ const PomiaryWagi = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <DodajWage wagi={wagi} setWagi={setWagi} />
-      <div className={classes.container}>
-        <ListaWag wagi={wagi} setWagi={setWagi} />
-        <WykresWagi wagi={wagi} />
-      </div>
+      <DodajWageProvider>
+        <DodajWage wagi={wagi} setWagi={setWagi} />
+        <div className={classes.container}>
+          <ListaWag wagi={wagi} setWagi={setWagi} />
+          <WykresWagi wagi={wagi} />
+        </div>
+      </DodajWageProvider>
     </div>
   );
 };

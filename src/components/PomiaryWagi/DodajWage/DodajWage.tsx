@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   createStyles,
@@ -13,6 +13,7 @@ import {
 import Waga from "../../../interfaces/Waga";
 import MyDatePicker from "../../Common/MyDatePicker";
 import MyFab from "../../Common/MyFab";
+import { DodajWageContext } from "../Contexts/DodajWageContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,9 +33,10 @@ interface Props {
 const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
   const classes = useStyles();
 
-  const [dodawanieWagi, setDodawanieWagi] = useState(false);
-  const [data, setData] = useState(new Date());
-  const [waga, setWaga] = useState("0.0");
+  const { czyWyswietlicDodawanieWagiGetSet: [czyWyswietlicDodawanieWagi, setCzyWyswietlicDodawanieWagi],
+    dataGetSet: [data, setData],
+    wagaGetSet: [waga, setWaga], 
+  } = useContext(DodajWageContext);
 
   useEffect(() => {
     setWaga(dajOstatniaWage());
@@ -91,17 +93,17 @@ const DodajWage: React.FC<Props> = ({ wagi, setWagi }) => {
       setWagi([...wagi, dodanaWaga]);
     }
 
-    setDodawanieWagi(false);
+    setCzyWyswietlicDodawanieWagi(false);
   };
 
   const handleAnulujClick = () => {
-    setDodawanieWagi(false);
+    setCzyWyswietlicDodawanieWagi(false);
   };
 
   return (
     <div>
-      <MyFab setState={setDodawanieWagi} />
-      <Dialog open={dodawanieWagi}>
+      <MyFab setState={setCzyWyswietlicDodawanieWagi} />
+      <Dialog open={czyWyswietlicDodawanieWagi}>
         <DialogTitle id="form-dialog-title">Dodaj wagę</DialogTitle>
         <DialogContent dividers>
           <form className={classes.root}>

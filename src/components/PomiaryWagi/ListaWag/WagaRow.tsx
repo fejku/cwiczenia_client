@@ -1,10 +1,10 @@
-import React from "react";
-import { createStyles, IconButton, makeStyles, Theme, Typography } from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import React, { useContext, useState } from "react";
+import { createStyles, IconButton, ListItemIcon, makeStyles, Menu, MenuItem, Theme, Typography } from "@material-ui/core";
 import moment from "moment";
 import Waga from "../../../interfaces/Waga";
 import ArrowUpIcon from "../../Icons/ArrowUpIcon";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { DodajWageContext } from "../Contexts/DodajWageContext";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,13 +39,38 @@ interface Props {
 const WagaRow: React.FC<Props> = ({ waga, setWagi }) => {
   const classes = useStyles();
 
-  const handleUsunClick = async () => {
+  const { 
+    czyWyswietlicDodawanieWagiGetSet: [czyWyswietlicEdycjeWagi, setCzyWyswietlicEdycjeWagi], 
+    dataGetSet: [edycjadata, setEdycjasetData],
+    wagaGetSet: [edycjaWaga, setEdycjasetWaga],  
+  } = useContext(DodajWageContext);
+
+  const [menuAnchor, setMenuAnchor] = useState<HTMLButtonElement | null>(null);
+
+  const onMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setMenuAnchor(event.currentTarget);
+  }
+  
+  const onMenuClose = () => {
+    setMenuAnchor(null);
+  }
+
+  const onMenuEditClick = async () => {
+    setEdycjasetData(waga.data);
+    setEdycjasetWaga(waga.waga.toFixed(1));
+    setCzyWyswietlicEdycjeWagi(true);
+    setMenuAnchor(null);
+  }  
+  
+  const onMenuUsunClick = async () => {
     const response = await fetch(`/waga/${waga._id}`, {
       method: "DELETE",
     });
-    const listaWag: Waga[] = await response.json();
-    setWagi(listaWag);
-  };
+    if (response.status === 200) {
+      setWagi(wagi => [...wagi.filter(w => w._id !== waga._id)]);
+    }
+    setMenuAnchor(null);
+  }  
 
   return (
     <>
@@ -66,9 +91,18 @@ const WagaRow: React.FC<Props> = ({ waga, setWagi }) => {
           </Typography>
         </div>
         <div className={classes.wagaAkcje}>
-          <IconButton size="small"  >
+          <IconButton onClick={onMenuClick} size="small" >
             <MoreHorizIcon  />
           </IconButton>
+          <Menu
+            anchorEl={menuAnchor}
+            keepMounted
+            open={Boolean(menuAnchor)}
+            onClose={onMenuClose}
+          >
+            <MenuItem onClick={onMenuEditClick}><ListItemIcon></ListItemIcon> Edytuj</MenuItem>
+            <MenuItem onClick={onMenuUsunClick}>Usuń</MenuItem>
+          </Menu>
         </div>
       </div>
     </>
